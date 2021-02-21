@@ -12,10 +12,6 @@ COPY tcpping /defaults/
 
 RUN \
  echo "**** install packages ****" && \
- if [ -z ${SMOKEPING_VERSION+x} ]; then \
-	SMOKEPING_VERSION=$(curl -sL "http://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz" | tar -xz -C /tmp \
-	&& awk '/^P:smokeping$/,/V:/' /tmp/APKINDEX | sed -n 2p | sed 's/^V://'); \
- fi && \
  apk add --no-cache \
 	apache2 \
 	apache2-ctl \
@@ -32,6 +28,10 @@ RUN \
 	tcptraceroute \
 	perl-lwp-protocol-https \
 	ttf-dejavu && \
+ if [ -z ${SMOKEPING_VERSION+x} ]; then \
+	SMOKEPING_VERSION=$(curl -sL "http://dl-cdn.alpinelinux.org/alpine/v3.13/main/x86_64/APKINDEX.tar.gz" | tar -xz -C /tmp \
+	&& awk '/^P:smokeping$/,/V:/' /tmp/APKINDEX | sed -n 2p | sed 's/^V://'); \
+ fi && \
  echo "**** give setuid access to traceroute & tcptraceroute ****" && \
  chmod a+s /usr/bin/traceroute && \
  chmod a+s /usr/bin/tcptraceroute && \
