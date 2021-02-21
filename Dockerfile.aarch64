@@ -30,6 +30,7 @@ RUN \
 	ssmtp \
 	sudo \
 	tcptraceroute \
+	perl-lwp-protocol-https \
 	ttf-dejavu && \
  echo "**** give setuid access to traceroute & tcptraceroute ****" && \
  chmod a+s /usr/bin/traceroute && \
